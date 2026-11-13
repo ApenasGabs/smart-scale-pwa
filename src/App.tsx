@@ -253,6 +253,13 @@ export const App: React.FC = () => {
         user={user}
         isOpen={isUserModalOpen}
         onClose={() => setIsUserModalOpen(false)}
+        onSelectUser={(selected) => {
+          setUser(selected);
+          setRecords(StorageService.getMeasurements(selected.id));
+          if (reading.weightKg > 0) {
+            setMetrics(calculateMetrics(reading.weightKg, reading.impedanceOhms, selected));
+          }
+        }}
         onSave={handleSaveUser}
       />
     </div>

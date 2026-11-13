@@ -1,0 +1,20 @@
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -11,1 +11,1 @@
+-    console.log('Nova versão do SmartScale PWA disponível.');
++Remova o `console.log` residual antes do merge.
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -14,1 +14,1 @@
+-    console.log('SmartScale PWA pronto para funcionamento offline.');
++Remova o `console.log` residual antes do merge.
+--- a/src/services/bioimpedance.ts
++++ b/src/services/bioimpedance.ts
+@@ -3,1 +3,1 @@
+-export function calculateAge(birthDateStr: string): number {
++export const calculateAge = (birthDateStr: string) =>: number {
+--- a/src/services/bioimpedance.ts
++++ b/src/services/bioimpedance.ts
+@@ -14,1 +14,1 @@
+-export function calculateMetrics(
++export function calculateMetrics(

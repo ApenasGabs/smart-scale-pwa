@@ -1,4 +1,5 @@
 import { BluetoothReading, BluetoothStatus } from '../types';
+import { decodeScalePacket } from './decoder';
 
 export class BluetoothScaleService {
   private device: BluetoothDevice | null = null;
@@ -144,53 +145,11 @@ export class BluetoothScaleService {
       bytes.push(dataView.getUint8(i));
     }
 
-    const header = bytes[0];
-    let weightKg = 0;
-    let impedanceOhms: number | undefined = undefined;
-    let isStabilized = false;
-
-    // Decodificador de protocolo Chipsea / OKOK (Header 0xCA ou 0xCF)
-    if (header === 0xCA || header === 0xCF) {
-      const statusByte = bytes[2];
-      isStabilized = (statusByte & 0x01) === 0x01 || (statusByte & 0x02) === 0x02;
-
-      // Peso em bytes 3 e 4 ou 4 e 5 dependendo da subversão
-      const rawWeight = (bytes[3] << 8) | bytes[4];
-      weightKg = rawWeight / 10.0;
-      if (weightKg > 250) {
-        // Algumas variantes usam divisor 100
-        weightKg = rawWeight / 100.0;
-      }
-
-      // Impedância em bytes 5 e 6
-      if (bytes.length >= 7) {
-        const rawImpedance = (bytes[5] << 8) | bytes[6];
-        if (rawImpedance > 100 && rawImpedance < 2000) {
-          impedanceOhms = rawImpedance;
-        }
-      }
-    } 
-    // Decodificador padrão Bluetooth SIG (0x2A9D Weight Measurement)
-    else {
-      const flags = bytes[0];
-      const isLbs = (flags & 0x01) === 0x01;
-      const rawWeight = (bytes[2] << 8) | bytes[1];
-      const resolution = isLbs ? 0.01 : 0.005;
-      let calculated = rawWeight * resolution;
-      if (isLbs) calculated = calculated * 0.45359237; // Converter para kg
-      weightKg = Number(calculated.toFixed(1));
-      isStabilized = true;
-    }
-
-    if (weightKg > 0) {
-      this.setStatus(isStabilized ? 'stabilized' : 'measuring');
+    const reading = decodeScalePacket(bytes);
+    if (reading.weightKg > 0) {
+      this.setStatus(reading.isStabilized ? 'stabilized' : 'measuring');
       if (this.onReadingCallback) {
-        this.onReadingCallback({
-          weightKg: Number(weightKg.toFixed(1)),
-          impedanceOhms,
-          isStabilized,
-          rawBytes: bytes.map(b => b.toString(16).padStart(2, '0')).join(' ')
-        });
+        this.onReadingCallback(reading);
       }
     }
   }

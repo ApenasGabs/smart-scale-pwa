@@ -6,13 +6,7 @@ import { registerSW } from 'virtual:pwa-register';
 
 // Registrar Service Worker para PWA Offline-First
 registerSW({
-  immediate: true,
-  onNeedRefresh() {
-    console.log('Nova versão do SmartScale PWA disponível.');
-  },
-  onOfflineReady() {
-    console.log('SmartScale PWA pronto para funcionamento offline.');
-  }
+  immediate: true
 });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

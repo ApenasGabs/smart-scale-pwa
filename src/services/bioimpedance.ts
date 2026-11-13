@@ -1,6 +1,6 @@
 import { UserProfile, BodyMetrics, MetricDetail, HealthRating } from '../types';
 
-export function calculateAge(birthDateStr: string): number {
+export const calculateAge = (birthDateStr: string): number => {
   const birth = new Date(birthDateStr);
   const now = new Date();
   let age = now.getFullYear() - birth.getFullYear();
@@ -9,13 +9,13 @@ export function calculateAge(birthDateStr: string): number {
     age--;
   }
   return Math.max(10, Math.min(100, age));
-}
+};
 
-export function calculateMetrics(
+export const calculateMetrics = (
   weightKg: number,
   impedanceOhms: number | undefined,
   user: UserProfile
-): BodyMetrics {
+): BodyMetrics => {
   const age = calculateAge(user.birthDate);
   const heightM = user.heightCm / 100;
   const bmiVal = Number((weightKg / (heightM * heightM)).toFixed(1));
