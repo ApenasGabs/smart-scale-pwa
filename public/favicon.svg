@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="scaleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14b8a6"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Base da Balança -->
+  <rect x="48" y="48" width="416" height="416" rx="64" fill="url(#glassGrad)" stroke="#475569" stroke-width="12"/>
+  
+  <!-- Sensores metálicos de bioimpedância (cantos) -->
+  <circle cx="120" cy="120" r="40" fill="#0d9488" opacity="0.3" stroke="#2dd4bf" stroke-width="6"/>
+  <circle cx="392" cy="120" r="40" fill="#0d9488" opacity="0.3" stroke="#2dd4bf" stroke-width="6"/>
+  <circle cx="120" cy="392" r="40" fill="#0d9488" opacity="0.3" stroke="#2dd4bf" stroke-width="6"/>
+  <circle cx="392" cy="392" r="40" fill="#0d9488" opacity="0.3" stroke="#2dd4bf" stroke-width="6"/>
+  
+  <!-- Display Digital -->
+  <rect x="160" y="88" width="192" height="72" rx="16" fill="#090d16" stroke="#334155" stroke-width="4"/>
+  <text x="256" y="136" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="bold" fill="#2dd4bf" text-anchor="middle" dominant-baseline="middle">72.5 kg</text>
+  
+  <!-- Símbolo Bluetooth / Conexão no centro -->
+  <circle cx="256" cy="276" r="48" fill="url(#scaleGrad)"/>
+  <path d="M256 244 L256 308 M256 244 L276 260 L240 288 L276 292 L256 308" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
