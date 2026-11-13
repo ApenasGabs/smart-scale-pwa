@@ -22,3 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+REVIEW_REPORT.md
+review-fixes.patch
