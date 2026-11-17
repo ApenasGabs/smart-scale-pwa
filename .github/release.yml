@@ -1,0 +1,38 @@
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - dependabot[bot]
+  categories:
+    - title: "🚀 Novas Funcionalidades (Features)"
+      labels:
+        - enhancement
+        - feature
+      keywords:
+        - "feat:"
+        - "feat"
+    - title: "🐛 Correções de Bugs (Bug Fixes)"
+      labels:
+        - bug
+        - fix
+      keywords:
+        - "fix:"
+        - "fix"
+    - title: "⚡ Performance e Refatoração"
+      labels:
+        - performance
+        - refactor
+      keywords:
+        - "perf:"
+        - "refactor:"
+    - title: "🛠️ Infraestrutura, CI/CD & Dependências"
+      labels:
+        - ci
+        - chore
+        - dependencies
+      keywords:
+        - "ci:"
+        - "chore:"
+        - "build:"
+        - "docs:"
