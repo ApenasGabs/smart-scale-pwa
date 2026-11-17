@@ -9,8 +9,9 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: write # Permissões adequadas de GITHUB_TOKEN para criação de releases e tags
   pull-requests: write
+  issues: write
 
 jobs:
   validate:
@@ -47,6 +48,10 @@ jobs:
     needs: validate
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Permissões adequadas de GITHUB_TOKEN para criação de releases e tags
+      issues: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
