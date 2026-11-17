@@ -1,12 +1,14 @@
 import React from 'react';
 import { BluetoothStatus } from '../types';
-import { Bluetooth, CheckCircle2, Loader2, Target, AlertTriangle } from 'lucide-react';
+import { Bluetooth, CheckCircle2, Loader2, Target, AlertTriangle, Radio } from 'lucide-react';
 
 interface ScaleGaugeProps {
   weight: number;
   isStabilized: boolean;
   status: BluetoothStatus;
   targetWeight?: number;
+  deviceName?: string;
+  protocol?: string;
   onConnect: () => void;
   onDisconnect: () => void;
   onSimulate: () => void;
@@ -17,6 +19,8 @@ export const ScaleGauge: React.FC<ScaleGaugeProps> = ({
   isStabilized,
   status,
   targetWeight,
+  deviceName,
+  protocol,
   onConnect,
   onDisconnect,
   onSimulate
@@ -26,7 +30,7 @@ export const ScaleGauge: React.FC<ScaleGaugeProps> = ({
       case 'scanning':
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
-            <Loader2 className="w-3.5 h-3.5 animate-spin" /> Buscando balança...
+            <Loader2 className="w-3.5 h-3.5 animate-spin" /> Buscando balança BLE...
           </span>
         );
       case 'connecting':
@@ -38,7 +42,14 @@ export const ScaleGauge: React.FC<ScaleGaugeProps> = ({
       case 'measuring':
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-teal-500/20 text-teal-300 border border-teal-500/40 animate-pulse">
-            <span className="w-2 h-2 rounded-full bg-teal-400 animate-ping" /> Medindo... Fique imóvel
+            <Radio className="w-3.5 h-3.5 animate-pulse text-teal-400" />
+            {deviceName ? `${deviceName}: Medindo...` : 'Medindo... Fique imóvel'}
+          </span>
+        );
+      case 'connected':
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <CheckCircle2 className="w-3.5 h-3.5" /> {deviceName || 'Balança Conectada'}
           </span>
         );
       case 'stabilized':
@@ -67,9 +78,14 @@ export const ScaleGauge: React.FC<ScaleGaugeProps> = ({
   return (
     <div className="relative flex flex-col items-center justify-center p-6 bg-slate-800/80 backdrop-blur-sm border border-slate-700/80 rounded-3xl shadow-2xl">
       {/* Top Status */}
-      <div className="w-full flex items-center justify-between mb-4">
+      <div className="w-full flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           {getStatusBadge()}
+          {protocol && (
+            <span className="text-[10px] px-2 py-0.5 rounded bg-slate-700 text-slate-300 font-mono">
+              {protocol}
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -98,6 +114,20 @@ export const ScaleGauge: React.FC<ScaleGaugeProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Orientações para conexão */}
+      {(status === 'disconnected' || status === 'error') && (
+        <div className="w-full mb-3 p-3 bg-brand-500/10 border border-brand-500/20 rounded-2xl text-xs text-brand-300 flex items-start gap-2.5">
+          <span className="text-base leading-none">💡</span>
+          <div>
+            <p className="font-semibold text-brand-200">Como conectar sua balança OKOK / Chipsea:</p>
+            <ol className="list-decimal list-inside text-slate-300 space-y-0.5 mt-1 text-[11px]">
+              <li>Suba descalço na balança para <strong>acender o display</strong> e ligar o Bluetooth.</li>
+              <li>Clique em <strong>Conectar Balança</strong> e escolha seu dispositivo no popup do navegador.</li>
+            </ol>
+          </div>
+        </div>
+      )}
 
       {/* Main Digital Display */}
       <div className="relative my-4 flex flex-col items-center justify-center w-64 h-64 rounded-full border-4 border-slate-700/60 bg-gradient-to-b from-slate-900 via-slate-900/90 to-slate-950 shadow-inner">

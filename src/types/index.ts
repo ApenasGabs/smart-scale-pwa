@@ -67,4 +67,6 @@ export interface BluetoothReading {
   isStabilized: boolean;
   rawBytes?: string;
   unit?: 'kg' | 'lbs';
+  deviceName?: string;
+  protocol?: string;
 }

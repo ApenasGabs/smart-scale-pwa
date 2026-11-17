@@ -30,6 +30,8 @@ export const App: React.FC = () => {
   const lastSavedTimestampRef = useRef<number>(0);
 
   useEffect(() => {
+    scaleService.setUserProfile(user);
+
     scaleService.onStatusChange((newStatus) => {
       setStatus(newStatus);
     });
@@ -171,6 +173,8 @@ export const App: React.FC = () => {
               isStabilized={reading.isStabilized}
               status={status}
               targetWeight={user.targetWeightKg}
+              deviceName={reading.deviceName || scaleService.getDeviceName()}
+              protocol={reading.protocol}
               onConnect={handleConnect}
               onDisconnect={handleDisconnect}
               onSimulate={handleSimulate}
